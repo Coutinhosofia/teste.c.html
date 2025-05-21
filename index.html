@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Missão impossible carai</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #121212, #1e1e26);
+      color: #f1f1f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .game-box {
+      max-width: 600px;
+      padding: 30px;
+      background: #1a1a1f;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #000;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #ccc;
+      margin-bottom: 30px;
+    }
+
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 14px 24px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #2a9d8f;
+      color: white;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #nao {
+      background-color: #444;
+      position: absolute;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #respostaFinal {
+      font-size: 1.3rem;
+      color: #00ffc8;
+      margin-top: 30px;
+    }
+
+    .efeito {
+      position: absolute;
+      font-size: 2rem;
+      animation: flutuar 3s linear forwards;
+      color: #00ffc8;
+    }
+
+    @keyframes flutuar {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-200px); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="game-box">
+    <h1 id="titulo">Preparado(a) para uma missão?</h1>
+    <p id="texto">Responda com sinceridade e avance para desbloquear O GRAND FINALEEEEEE.</p>
+
+    <div class="btns" id="botoes">
+      <button onclick="responder(true)">VAMBORA</button>
+    </div>
+
+    <div id="respostaFinal"></div>
+  </div>
+
+  <script>
+    const titulo = document.getElementById("titulo");
+    const texto = document.getElementById("texto");
+    const botoes = document.getElementById("botoes");
+    const respostaFinal = document.getElementById("respostaFinal");
+
+    let fase = 0;
+
+    const perguntas = [
+      {
+        pergunta: "Você gosta de aventuras?",
+        opcoes: ["Sim", "Mais ou menos", "Prefiro calmaria"]
+      },
+      {
+        pergunta: "Topa viver muitos momentos felizes cmg? ",
+        opcoes: ["Com certeza", "Só se eu der a perereca", "Talvez"]
+      },
+      {
+        pergunta: "Agora, a pergunta final, podemos?...",
+        opcoes: ["Sim", "Não"]
+      }
+    ];
+
+    function responder(sim) {
+      if (!sim) return;
+      fase++;
+      if (fase < perguntas.length) {
+        mostrarPergunta();
+      } else {
+        mostrarPedido();
+      }
+    }
+
+    function mostrarPergunta() {
+      const atual = perguntas[fase];
+      titulo.textContent = atual.pergunta;
+      texto.textContent = "Escolha uma opção:";
+      botoes.innerHTML = "";
+
+      atual.opcoes.forEach(opcao => {
+        const btn = document.createElement("button");
+        btn.textContent = opcao;
+        btn.onclick = () => {
+          if (opcao === "Não") {
+            moverBotao(btn);
+          } else {
+            responder(true);
+          }
+        };
+        if (opcao === "Não" && fase === perguntas.length - 1) {
+          btn.id = "nao";
+          btn.onmouseover = () => moverBotao(btn);
+        }
+        botoes.appendChild(btn);
+      });
+    }
+
+    function moverBotao(botao) {
+      const x = Math.random() * (window.innerWidth - botao.offsetWidth);
+      const y = Math.random() * (window.innerHeight - botao.offsetHeight);
+      botao.style.position = "absolute";
+      botao.style.left = `${x}px`;
+      botao.style.top = `${y}px`;
+    }
+
+    function mostrarPedido() {
+      titulo.textContent = "🚀 Missão concluída!";
+      texto.textContent = "Você desbloqueou a pergunta secreta:";
+      botoes.innerHTML = `
+        <button id="sim">Vai me dar a prexeca?</button>
+        <button id="nao">NÃO </button>
+      `;
+
+      const btnSim = document.getElementById("sim");
+      const btnNao = document.getElementById("nao");
+
+      btnSim.onclick = () => {
+        respostaFinal.textContent = "VAI TER QUE DAR CARAAAAAI";
+        for (let i = 0; i < 25; i++) criarEfeito();
+      };
+
+      btnNao.onmouseover = () => moverBotao(btnNao);
+    }
+
+    function criarEfeito() {
+      const el = document.createElement("div");
+      el.classList.add("efeito");
+      el.textContent = "✨";
+      el.style.left = Math.random() * window.innerWidth + "px";
+      el.style.top = Math.random() * window.innerHeight + "px";
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
+    }
+  </script>
+</body>
+</html>
