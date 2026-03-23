@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Missão impossible carai</title>
+  <title>Teste jogo</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -110,11 +110,11 @@
     const perguntas = [
       {
         pergunta: "Você gosta de aventuras?",
-        opcoes: ["Sim", "Mais ou menos", "Prefiro calmaria"]
+        opcoes: ["Sim", "Mais ou menos"]
       },
       {
         pergunta: "Topa viver muitos momentos felizes cmg? ",
-        opcoes: ["Com certeza", "Só se eu der a perereca", "Talvez"]
+        opcoes: ["Com certeza", "Não sei", "Talvez"]
       },
       {
         pergunta: "Agora, a pergunta final, podemos?...",
@@ -165,10 +165,10 @@
     }
 
     function mostrarPedido() {
-      titulo.textContent = "🚀 Missão concluída!";
+      titulo.textContent =  "Missão concluída!";
       texto.textContent = "Você desbloqueou a pergunta secreta:";
       botoes.innerHTML = `
-        <button id="sim">Vai me dar a prexeca?</button>
+        <button id="sim">Talvez?</button>
         <button id="nao">NÃO </button>
       `;
 
@@ -176,7 +176,7 @@
       const btnNao = document.getElementById("nao");
 
       btnSim.onclick = () => {
-        respostaFinal.textContent = "VAI TER QUE DAR CARAAAAAI";
+        respostaFinal.textContent = "Apenas com uma condição";
         for (let i = 0; i < 25; i++) criarEfeito();
       };
 
